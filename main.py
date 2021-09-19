@@ -1,6 +1,8 @@
+import datetime
 import time
 import requests
 import re
+import os
 
 proxies = {"http": None, "https": None}  # 取消系统代理
 url = 'http://englishservice.siboenglish.com//MobService/index'  # okhttp
@@ -73,6 +75,7 @@ def getClassInformation(userID):
 
 def getEssayList(keyword, pageStart, userID, classID):
     global EssayList
+    EssayList.clear()
     #发送Post数据请求
     data = {'jyh':'2002',
             'parm':'{"keyWord":"' + keyword + '","eassyType":"","grade":0,"orderType":1,"pageStart":' + pageStart + ',"pageSize":10,"ts":2,"userID":"' + userID + '","classID":"' + classID + '"}',
@@ -197,7 +200,13 @@ if __name__ == '__main__':
 
     Count = 0
     nowPage = 0
-    Task = int(input("请输入待刷阅读量："))
+    # 确认
+    while True:
+        Task = int(input("请输入待刷阅读量："))
+        flag = input('确认刷' + str(Task) + '词？（y）：')
+        if flag == 'y':
+            break
+
     while True:
         if Count >= Task:
             break
@@ -213,3 +222,4 @@ if __name__ == '__main__':
 
     print("任务完成，欢迎下次使用。")
     print("本次共刷取阅读量：" + str(Count))
+    os.system('pause')
